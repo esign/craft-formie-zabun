@@ -1,0 +1,73 @@
+{% import '_includes/forms' as forms %}
+{% import 'verbb-base/_macros' as macros %}
+
+{% set instructions %}
+### Step 1. Connect to the {name} CRM
+1. You'll need the following credentials from your Zabun account (contact your administrator for these):
+    - X-Client-ID (Company ID)
+    - API Key
+    - Client ID 
+    - Server ID
+    - X-User-ID
+2. Enter these credentials in the fields below.
+
+### Step 2. Test Connection
+1. Save this integration.
+1. Click on the **Refresh** button in the right-hand sidebar.
+{% endset %}
+
+<div class="fui-settings-block">
+    {{ instructions | t('formie', { name: integration.displayName() }) | md }}
+</div>
+
+{% if not craft.app.config.general.allowAdminChanges %}
+    <span class="warning with-icon">
+        {{ 'Integration settings can only be editable on an environment with `allowAdminChanges` enabled.' | t('formie') | md(inlineOnly=true) }}
+    </span>
+{% endif %}
+
+{{ forms.autosuggestField({
+    label: 'X-Client-ID (Company ID)' | t('formie'),
+    instructions: 'Enter your Client ID here.' | t('formie'),
+    name: 'xClientId',
+    required: true,
+    suggestEnvVars: true,
+    value: integration.settings.xClientId ?? '',
+    warning: macros.configWarning('xClientId', 'formie'),
+    errors: integration.getErrors('xClientId'),
+}) }}
+
+
+{{ forms.autosuggestField({
+    label: 'API Key' | t('formie'),
+    instructions: 'Enter your API Key here.' | t('formie'),
+    name: 'apiKey',
+    required: true,
+    suggestEnvVars: true,
+    value: integration.settings.apiKey ?? '',
+    warning: macros.configWarning('apiKey', 'formie'),
+    errors: integration.getErrors('apiKey'),
+}) }}
+
+{{ forms.autosuggestField({
+    label: 'Client ID' | t('formie'),
+    instructions: 'Enter your Client ID here.' | t('formie'),
+    name: 'clientId',
+    required: true,
+    suggestEnvVars: true,
+    value: integration.settings.clientId ?? '',
+    warning: macros.configWarning('clientId', 'formie'),
+    errors: integration.getErrors('clientId'),
+}) }}
+
+{{ forms.autosuggestField({
+    label: 'Server ID' | t('formie'),
+    instructions: 'Enter your Server ID here.' | t('formie'),
+    name: 'serverId',
+    required: true,
+    suggestEnvVars: true,
+    value: integration.settings.serverId ?? '',
+    warning: macros.configWarning('serverId', 'formie'),
+    errors: integration.getErrors('serverId'),
+}) }}
+

@@ -1,0 +1,86 @@
+{% import '_includes/forms' as forms %}
+{% import 'verbb-base/_macros' as macros %}
+
+{% set handle = integration.handle %}
+{% set displayName = integration.displayName() %}
+{% set formSettings = integration.getFormSettings().getSettings() %}
+{% set mapToContact = form.settings.integrations[handle].mapToContact ?? '' %}
+{% set mapToContactMessage = form.settings.integrations[handle].mapToContactMessage ?? '' %}
+{% set mapToContactRequest = form.settings.integrations[handle].mapToContactRequest ?? '' %}
+
+<field-select
+    label="{{ 'Opt-In Field' | t('formie') }}"
+    instructions="{{ 'Choose a field to opt-in to {name}. For example, you might only wish to record user data if they provide a value for a field of your choice - commonly, an Agree field.' | t('formie', { name: displayName }) }}"
+    id="opt-in-field"
+    name="optInField"
+    :value="get(form, 'settings.integrations.{{ handle }}.optInField')"
+></field-select>
+
+<hr>
+
+<integration-form-settings handle="{{ handle }}" :form-settings="{{ formSettings | json_encode }}">
+    <template v-slot="{ get, isEmpty, input, settings, sourceId, loading, refresh, error, errorMessage, getSourceFields }">
+        <div class="field">
+            <button class="btn" :class="{ 'fui-loading fui-loading-sm': loading }" data-icon="refresh" @click.prevent="refresh">{{ 'Refresh Integration' | t('formie') }}</button>
+        </div>
+
+        <div v-if="error" class="error" style="margin-top: 10px;" v-cloak>
+            <span data-icon="alert"></span>
+            <span v-html="errorMessage"></span>
+        </div>
+
+        {{ forms.lightswitchField({
+            label: 'Map to Contact Message' | t('formie'),
+            instructions: 'Whether to map form data to {name} {label}.' | t('formie', { name: displayName, label: 'Contact Messages' }),
+            id: 'mapToContactMessage',
+            name: 'mapToContactMessage',
+            on: mapToContactMessage,
+            toggle: 'map-to-contact-message',
+        }) }}
+
+        <div id="map-to-contact-message" class="{{ not mapToContactMessage ? 'hidden' }}">
+            <integration-field-mapping
+                label="{{ 'Contact Message Field Mapping' | t('formie') }}"
+                instructions="{{ 'Choose how your form fields should map to your {name} {label} fields.' | t('formie', { name: displayName, label: 'Contact Message' }) }}"
+                name-label="{{ integration.displayName() }}"
+                id="contact-message-field-mapping"
+                name="contactMessageFieldMapping"
+                :value="get(form, 'settings.integrations.{{ handle }}.contactMessageFieldMapping')"
+                :rows="get(settings, 'contactMessage')"
+            ></integration-field-mapping>
+
+            <ul v-if="!isEmpty(get(form, 'settings.integrations.{{ handle }}.errors.contactMessageFieldMapping'))" class="errors" v-cloak>
+                <li v-for="(error, index) in get(form, 'settings.integrations.{{ handle }}.errors.contactMessageFieldMapping')" :key="index">
+                    ${ error }
+                </li>
+            </ul>
+        </div>
+
+        {{ forms.lightswitchField({
+            label: 'Map to Contact Request' | t('formie'),
+            instructions: 'Whether to map form data to {name} {label}.' | t('formie', { name: displayName, label: 'Contact Requests' }),
+            id: 'mapToContactRequest',
+            name: 'mapToContactRequest',
+            on: mapToContactRequest,
+            toggle: 'map-to-contact-request',
+        }) }}
+
+        <div id="map-to-contact-request" class="{{ not mapToContactRequest ? 'hidden' }}">
+            <integration-field-mapping
+                label="{{ 'Contact Request Field Mapping' | t('formie') }}"
+                instructions="{{ 'Choose how your form fields should map to your {name} {label} fields.' | t('formie', { name: displayName, label: 'Contact Request' }) }}"
+                name-label="{{ integration.displayName() }}"
+                id="contact-request-field-mapping"
+                name="contactRequestFieldMapping"
+                :value="get(form, 'settings.integrations.{{ handle }}.contactRequestFieldMapping')"
+                :rows="get(settings, 'contactRequest')"
+            ></integration-field-mapping>
+
+            <ul v-if="!isEmpty(get(form, 'settings.integrations.{{ handle }}.errors.contactRequestFieldMapping'))" class="errors" v-cloak>
+                <li v-for="(error, index) in get(form, 'settings.integrations.{{ handle }}.errors.contactRequestFieldMapping')" :key="index">
+                    ${ error }
+                </li>
+            </ul>
+        </div>
+    </template>
+</integration-form-settings>
