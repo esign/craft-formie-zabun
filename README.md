@@ -3,7 +3,7 @@
 [![Stable Version](https://img.shields.io/packagist/v/esign/craft-formie-zabun?label=stable)](https://packagist.org/packages/esign/craft-formie-zabun)
 [![Total Downloads](https://img.shields.io/packagist/dt/esign/craft-formie-zabun)](https://packagist.org/packages/esign/craft-formie-zabun)
 
-<p align="center"><img width="130" src="https://raw.githubusercontent.com/esign/craft-formie-zabun/master/src/icon.jpg"></p>
+<p align="center"><img width="130" src="https://raw.githubusercontent.com/esign/craft-formie-zabun/master/src/icon.svg"></p>
 
 A [Zabun](https://zabun.be) integration that extends the [Formie](https://verbb.io/craft-plugins/formie/features) plugin for Craft CMS.
 
