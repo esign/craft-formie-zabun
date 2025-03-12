@@ -1,14 +1,14 @@
 {
-  "name": "esign/craft-formie-zabun-integration",
-  "description": "Zabun integration that extends Formie Craft CMS plugin.",
+  "name": "esign/craft-formie-zabun",
+  "description": "Zabun integration that extends Formie.",
   "type": "craft-plugin",
   "license": "mit",
   "support": {
     "email": "support@esign.eu",
-    "issues": "https://github.com/esign/craft-formie-zabun-integration/issues?state=open",
-    "source": "https://github.com/esign/craft-formie-zabun-integration",
-    "docs": "https://github.com/esign/craft-formie-zabun-integration",
-    "rss": "https://github.com/esign/craft-formie-zabun-integration/releases.atom"
+    "issues": "https://github.com/esign/craft-formie-zabun/issues?state=open",
+    "source": "https://github.com/esign/craft-formie-zabun",
+    "docs": "https://github.com/esign/craft-formie-zabun",
+    "rss": "https://github.com/esign/craft-formie-zabun/releases.atom"
   },
   "require": {
     "php": ">=8.2",
@@ -21,14 +21,14 @@
   },
   "autoload": {
     "psr-4": {
-      "esign\\craftformiezabunintegration\\": "src/"
+      "esign\\formiezabun\\": "src/"
     }
   },
   "extra": {
     "handle": "formie-zabun",
     "name": "Formie Zabun Integration",
     "developer": "dieter.vanhove@dynamate.be",
-    "documentationUrl": "https://github.com/esign/craft-formie-zabun-integration"
+    "documentationUrl": "https://github.com/esign/craft-formie-zabun"
   },
   "scripts": {
     "check-cs": "ecs check --ansi",

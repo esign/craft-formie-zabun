@@ -1,6 +1,6 @@
 <?php
 
-namespace esign\craftformiezabunintegration\integrations\crm;
+namespace esign\formiezabun\integrations\crm;
 
 use Craft;
 use craft\helpers\App;
@@ -27,7 +27,6 @@ class Zabun extends Crm
     // =========================================================================
 
     public const BASE_URL = 'https://public.api-cms.zabun.be/';
-    public const API_CONTACT = 'api/v1/contact';
     public const API_CONTACT_MESSAGE = 'api/v1/contactmessage';
     public const API_CONTACT_REQUEST = 'api/v1/contactrequest';
     public const API_HEARTBEAT = 'auth/v1/heartbeat';
@@ -46,7 +45,7 @@ class Zabun extends Crm
 
     public function getIconUrl(): string
     {
-        return Craft::$app->getAssetManager()->getPublishedUrl("@esign/craftformiezabunintegration/icon.jpg", true);
+        return Craft::$app->getAssetManager()->getPublishedUrl('@esign/formiezabun/assets/icon.jpg', true);
     }
 
     public function getDescription(): string

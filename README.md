@@ -1,9 +1,9 @@
 # Formie Zabun Integration
 
-[![Stable Version](https://img.shields.io/packagist/v/esign/craft-formie-zabun-integration?label=stable)](https://packagist.org/packages/esign/craft-formie-zabun-integration)
-[![Total Downloads](https://img.shields.io/packagist/dt/esign/craft-formie-zabun-integration)](https://packagist.org/packages/esign/craft-formie-zabun-integration)
+[![Stable Version](https://img.shields.io/packagist/v/esign/craft-formie-zabun?label=stable)](https://packagist.org/packages/esign/craft-formie-zabun)
+[![Total Downloads](https://img.shields.io/packagist/dt/esign/craft-formie-zabun)](https://packagist.org/packages/esign/craft-formie-zabun)
 
-<p align="center"><img width="130" src="https://raw.githubusercontent.com/esign/craft-formie-zabun-integration/master/src/icon.jpg"></p>
+<p align="center"><img width="130" src="https://raw.githubusercontent.com/esign/craft-formie-zabun/master/src/icon.jpg"></p>
 
 A [Zabun](https://zabun.be) integration that extends the [Formie](https://verbb.io/craft-plugins/formie/features) plugin for Craft CMS.
 
@@ -12,7 +12,8 @@ A [Zabun](https://zabun.be) integration that extends the [Formie](https://verbb.
 This plugin requires:
 - Craft CMS 5.0.0 or later
 - PHP 8.2 or later
-- Formie plugin installed and enabled
+- Formie 3.0 or later
+- A Zabun account
 
 ## Installation
 
@@ -31,7 +32,7 @@ Open your terminal and run the following commands:
 cd /path/to/my-project.test
 
 # tell Composer to load the plugin
-composer require esign/craft-formie-zabun-integration
+composer require esign/craft-formie-zabun
 
 # tell Craft to install the plugin
 ./craft plugin/install formie-zabun
@@ -55,6 +56,7 @@ composer require esign/craft-formie-zabun-integration
 4. Map your form fields:
    - Map to Contact Message for user messages
    - Map to Contact Request for user property requests
+5. Map each field carefully, be sure to configure your form fields to match the accepted [content types](https://gateway-cmsapi.v2.zabun.be/swagger/index.html?urls.primaryName=Zabun+1+CmsApi+-+v1)
 
 ## API Documentation
 
