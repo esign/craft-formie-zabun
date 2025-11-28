@@ -91,7 +91,6 @@ class Zabun extends Crm
                         new IntegrationField([
                             'handle' => 'message:text',
                             'name' => Craft::t('formie', 'Message Text'),
-                            'required' => true,
                             'type' => IntegrationField::TYPE_STRING,
                         ]),
                         new IntegrationField([
