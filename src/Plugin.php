@@ -5,6 +5,7 @@ namespace esign\formiezabun;
 use craft\base\Event;
 use craft\base\Plugin as BasePlugin;
 use esign\formiezabun\integrations\crm\Zabun;
+use esign\formiezabun\integrations\crm\Zabun360;
 use verbb\formie\events\RegisterIntegrationsEvent;
 use verbb\formie\services\Integrations;
 
@@ -34,6 +35,7 @@ class Plugin extends BasePlugin
             Integrations::EVENT_REGISTER_INTEGRATIONS,
             function(RegisterIntegrationsEvent $event) {
                 $event->crm[] = Zabun::class;
+                $event->crm[] = Zabun360::class;
             }
         );
     }

@@ -1,0 +1,67 @@
+{% import '_includes/forms' as forms %}
+{% import 'verbb-base/_macros' as macros %}
+
+{% set handle = integration.handle %}
+{% set displayName = integration.displayName() %}
+{# Static fields: no need to wait for "Refresh Integration" #}
+{% set formSettings = integration.fetchFormSettings().getSettings() %}
+{% set mapToContactMe = form.settings.integrations[handle].mapToContactMe ?? '' %}
+{% set appendFieldsToComments = form.settings.integrations[handle].appendFieldsToComments ?? '' %}
+
+<field-select
+    label="{{ 'Opt-In Field' | t('formie') }}"
+    instructions="{{ 'Choose a field to opt-in to {name}. For example, you might only wish to record user data if they provide a value for a field of your choice - commonly, an Agree field.' | t('formie', { name: displayName }) }}"
+    id="opt-in-field"
+    name="optInField"
+    :value="get(form, 'settings.integrations.{{ handle }}.optInField')"
+></field-select>
+
+<hr>
+
+<integration-form-settings handle="{{ handle }}" :form-settings="{{ formSettings | json_encode }}">
+    <template v-slot="{ get, isEmpty, input, settings, sourceId, loading, refresh, error, errorMessage, getSourceFields }">
+        <div class="field">
+            <button class="btn" :class="{ 'fui-loading fui-loading-sm': loading }" data-icon="refresh" @click.prevent="refresh">{{ 'Refresh Integration' | t('formie') }}</button>
+        </div>
+
+        <div v-if="error" class="error" style="margin-top: 10px;" v-cloak>
+            <span data-icon="alert"></span>
+            <span v-html="errorMessage"></span>
+        </div>
+
+        {{ forms.lightswitchField({
+            label: 'Map to Contact Request' | t('formie'),
+            instructions: 'Whether to send form data to {name} as a contact request.' | t('formie', { name: displayName }),
+            id: 'mapToContactMe',
+            name: 'mapToContactMe',
+            on: mapToContactMe,
+            toggle: 'map-to-contact-me',
+        }) }}
+
+        <div id="map-to-contact-me" class="{{ not mapToContactMe ? 'hidden' }}">
+            <integration-field-mapping
+                label="{{ 'Contact Request Field Mapping' | t('formie') }}"
+                instructions="{{ 'Choose how your form fields should map to your {name} {label} fields.' | t('formie', { name: displayName, label: 'Contact Request' }) }}"
+                name-label="{{ integration.displayName() }}"
+                id="contact-me-field-mapping"
+                name="contactMeFieldMapping"
+                :value="get(form, 'settings.integrations.{{ handle }}.contactMeFieldMapping')"
+                :rows="get(settings, 'contactMe')"
+            ></integration-field-mapping>
+
+            <ul v-if="!isEmpty(get(form, 'settings.integrations.{{ handle }}.errors.contactMeFieldMapping'))" class="errors" v-cloak>
+                <li v-for="(error, index) in get(form, 'settings.integrations.{{ handle }}.errors.contactMeFieldMapping')" :key="index">
+                    ${ error }
+                </li>
+            </ul>
+
+            {{ forms.lightswitchField({
+                label: 'Add other fields to the comments' | t('formie'),
+                instructions: 'Append the fields that aren’t mapped above (e.g. search preferences) to the comments, as “Label: value” lines. Zabun 360 has no fields for them.' | t('formie'),
+                id: 'appendFieldsToComments',
+                name: 'appendFieldsToComments',
+                on: appendFieldsToComments,
+            }) }}
+        </div>
+    </template>
+</integration-form-settings>

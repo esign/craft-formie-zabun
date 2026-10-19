@@ -1,0 +1,53 @@
+{% import '_includes/forms' as forms %}
+{% import 'verbb-base/_macros' as macros %}
+
+{% set instructions %}
+### Step 1. Connect to {name}
+1. Enter the Zabun 360 (Skarabee WebLink) API key of the agency. It's the same key the property sync uses.
+1. Enable the integration only on the live site: every submission becomes a contact request in the agency's account.
+
+### Step 2. Test Connection
+1. Save this integration.
+1. Click on the **Refresh** button in the right-hand sidebar.
+{% endset %}
+
+<div class="fui-settings-block">
+    {{ instructions | t('formie', { name: integration.displayName() }) | md }}
+</div>
+
+{% if not craft.app.config.general.allowAdminChanges %}
+    <span class="warning with-icon">
+        {{ 'Integration settings can only be editable on an environment with `allowAdminChanges` enabled.' | t('formie') | md(inlineOnly=true) }}
+    </span>
+{% endif %}
+
+{{ forms.autosuggestField({
+    label: 'API Key' | t('formie'),
+    instructions: 'Enter your Zabun 360 API key here.' | t('formie'),
+    name: 'apiKey',
+    required: true,
+    suggestEnvVars: true,
+    value: integration.settings.apiKey ?? '',
+    warning: macros.configWarning('apiKey', 'formie'),
+    errors: integration.getErrors('apiKey'),
+}) }}
+
+{{ forms.autosuggestField({
+    label: 'Originator' | t('formie'),
+    instructions: 'Where the contact came from, as shown in Zabun 360. Defaults to “Website”.' | t('formie'),
+    name: 'originator',
+    suggestEnvVars: true,
+    value: integration.settings.originator ?? '',
+    warning: macros.configWarning('originator', 'formie'),
+    errors: integration.getErrors('originator'),
+}) }}
+
+{{ forms.autosuggestField({
+    label: 'Office ID' | t('formie'),
+    instructions: 'Optional: the Zabun 360 office that receives the contacts.' | t('formie'),
+    name: 'officeId',
+    suggestEnvVars: true,
+    value: integration.settings.officeId ?? '',
+    warning: macros.configWarning('officeId', 'formie'),
+    errors: integration.getErrors('officeId'),
+}) }}
